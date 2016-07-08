@@ -7,7 +7,6 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Set;
@@ -25,13 +24,18 @@ public class MultiplexerTimeServer implements Runnable{
 		try{
 			selector = Selector.open();
 			servChannel = ServerSocketChannel.open();
+			servChannel.configureBlocking(false);
 			servChannel.socket().bind(new InetSocketAddress(port),1024);
 			servChannel.register(selector, SelectionKey.OP_ACCEPT);
-			System.out.println("The time server port is"+port);
+			System.out.println("The time server port is "+port);
 		}catch(IOException ioe){
 			ioe.printStackTrace();
 			System.exit(1);
 		}
+	}
+	
+	public void stop(){
+		this.stop = true;
 	}
 
 	@Override
@@ -57,15 +61,15 @@ public class MultiplexerTimeServer implements Runnable{
 						}
 					}
 				}
-			}catch(IOException ioe){
+			}catch(Throwable ioe){
 				ioe.printStackTrace();
 			}
-			if(selector != null){
-				try{
-					selector.close();
-				}catch(IOException ioe){
-					ioe.printStackTrace();
-				}
+		}
+		if(selector != null){
+			try{
+				selector.close();
+			}catch(IOException ioe){
+				ioe.printStackTrace();
 			}
 		}
 	}

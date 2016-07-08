@@ -11,8 +11,9 @@ public class NIOTimeServer {
 			}catch(NumberFormatException e){
 				
 			}
-			MultiplexerTimeServer timeServer = new MultiplexerTimeServer(port);
-			new Thread(timeServer,"NIO").start();;
 		}
+		MultiplexerTimeServer timeServer = new MultiplexerTimeServer(port);
+		new Thread(timeServer,"NIO").start();
 	}
+	
 }
