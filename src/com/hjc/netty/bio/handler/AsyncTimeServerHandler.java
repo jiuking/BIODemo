@@ -1,6 +1,5 @@
 package com.hjc.netty.bio.handler;
 
-import java.nio.channels.AcceptPendingException;
 import java.nio.channels.AsynchronousServerSocketChannel;
 import java.util.concurrent.CountDownLatch;
 
